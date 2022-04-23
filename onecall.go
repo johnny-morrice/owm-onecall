@@ -1,8 +1,12 @@
 package owmonecall
 
 import (
+	"encoding/json"
+	"fmt"
+	"net/http"
 	"strings"
 
+	"github.com/pkg/errors"
 	"github.com/shopspring/decimal"
 )
 
@@ -11,8 +15,32 @@ import (
 // * https://openweathermap.org/api/one-call-api
 // * https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&exclude={part}&appid={API key}
 
-func OneCall(lat, long decimal.Decimal, appId string, opts ...OptionalParameter) (*OneCallResponse, error) {
-	panic("not implemented")
+func OneCall(lat, long decimal.Decimal, appId string, optionals ...OptionalParameter) (*OneCallResponse, error) {
+	latText := lat.String()
+	longText := long.String()
+	optQuery := ""
+	for _, opt := range optionals {
+		if len(optQuery) > 0 {
+			optQuery += "&"
+		}
+		optQuery += fmt.Sprintf("%s=%s", opt.Name, opt.Value)
+	}
+	url := fmt.Sprintf("https://api.openweathermap.org/data/2.5/onecall?lat=%s&lon=%s&appid=%s", latText, longText, appId)
+	if len(optQuery) > 0 {
+		url += optQuery
+	}
+	client := &http.Client{}
+	resp, err := client.Get(url)
+	if err != nil {
+		return nil, errors.Wrap(err, "API call failed")
+	}
+	out := &OneCallResponse{}
+	decoder := json.NewDecoder(resp.Body)
+	err = decoder.Decode(out)
+	if err != nil {
+		return nil, errors.Wrap(err, "JSON decoding failed")
+	}
+	return out, nil
 }
 
 type OptionalParameter struct {
