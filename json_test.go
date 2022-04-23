@@ -58,7 +58,13 @@ func TestDeserialiseResponse(t *testing.T) {
 				WindSpeed:  parseDecimal("4.12"),
 				WindDeg:    296,
 				WindGust:   parseDecimal("7.33"),
-				Weather:    []Weather{{ID: 801, Main: "Clouds", Description: "few clouds", Icon: "02d"}},
+				Weather: []Weather{
+					{
+						ID:          801,
+						Main:        "Clouds",
+						Description: "few clouds",
+						Icon:        "02d",
+					}},
 				// The sample had pop = 0, so I changed it to 1 because 0 could also mean we didn't find the field.
 				Pop: 1,
 			},
@@ -75,9 +81,9 @@ func TestDeserialiseResponse(t *testing.T) {
 					Day:   parseDecimal("279.79"),
 					Min:   parseDecimal("275.09"),
 					Max:   parseDecimal("284.07"),
-					Morn:  parseDecimal("278.49"),
-					Eve:   parseDecimal("279.21"),
 					Night: parseDecimal("275.09"),
+					Eve:   parseDecimal("279.21"),
+					Morn:  parseDecimal("278.49"),
 				},
 				FeelsLike: DayFeelsLike{
 					Day:   parseDecimal("277.59"),
@@ -90,11 +96,18 @@ func TestDeserialiseResponse(t *testing.T) {
 				DewPoint:  parseDecimal("276.77"),
 				WindSpeed: parseDecimal("3.06"),
 				WindDeg:   parseDecimal("294"),
-				Weather:   []Weather{{ID: 500, Main: "Rain", Description: "light rain", Icon: "10d"}},
-				Clouds:    56,
-				Pop:       parseDecimal("0.2"),
-				Rain:      parseDecimal("0.62"),
-				Uvi:       parseDecimal("1.93"),
+				Weather: []Weather{
+					{
+						ID:          500,
+						Main:        "Rain",
+						Description: "light rain",
+						Icon:        "10d",
+					},
+				},
+				Clouds: 56,
+				Pop:    parseDecimal("0.2"),
+				Rain:   parseDecimal("0.62"),
+				Uvi:    parseDecimal("1.93"),
 			},
 		},
 		Alerts: []Alert{
