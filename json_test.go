@@ -22,7 +22,12 @@ func TestDeserialiseResponse(t *testing.T) {
 	if err != nil {
 		t.Fatal("failed to decode sample file JSON")
 	}
-	expected := &OneCallResponse{
+	expected := expectedSampleJson()
+	assertEqual(t, expected, actual)
+}
+
+func expectedSampleJson() *OneCallResponse {
+	return &OneCallResponse{
 		Lat:            parseDecimal("33.44"),
 		Lon:            parseDecimal("-94.04"),
 		Timezone:       "America/Chicago",
@@ -131,7 +136,6 @@ func TestDeserialiseResponse(t *testing.T) {
 			},
 		},
 	}
-	assertEqual(t, expected, actual)
 }
 
 func parseDecimal(num string) decimal.Decimal {

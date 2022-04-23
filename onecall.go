@@ -20,15 +20,11 @@ func OneCall(lat, long decimal.Decimal, appId string, optionals ...OptionalParam
 	longText := long.String()
 	optQuery := ""
 	for _, opt := range optionals {
-		if len(optQuery) > 0 {
-			optQuery += "&"
-		}
+		optQuery += "&"
 		optQuery += fmt.Sprintf("%s=%s", opt.Name, opt.Value)
 	}
 	url := fmt.Sprintf("https://api.openweathermap.org/data/2.5/onecall?lat=%s&lon=%s&appid=%s", latText, longText, appId)
-	if len(optQuery) > 0 {
-		url += optQuery
-	}
+	url += optQuery
 	client := &http.Client{}
 	resp, err := client.Get(url)
 	if err != nil {
@@ -46,6 +42,13 @@ func OneCall(lat, long decimal.Decimal, appId string, optionals ...OptionalParam
 type OptionalParameter struct {
 	Name  string
 	Value string
+}
+
+func Lang(lang string) OptionalParameter {
+	return OptionalParameter{
+		Name:  "lang",
+		Value: lang,
+	}
 }
 
 func Exclude(excludes []string) OptionalParameter {
