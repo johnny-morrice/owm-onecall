@@ -43,7 +43,7 @@ func expectedSampleJson() *OneCallResponse {
 			DewPoint:   parseDecimal("277.08"),
 			Uvi:        parseDecimal("0.89"),
 			Visibility: 10000,
-			WindSpeed:  6,
+			WindSpeed:  parseDecimal("6"),
 			WindDeg:    300,
 			Weather:    []Weather{{ID: 500, Main: "Rain", Description: "light rain", Icon: "10d"}},
 			Rain:       map[string]decimal.Decimal{"1h": parseDecimal("0.21")},
@@ -70,8 +70,7 @@ func expectedSampleJson() *OneCallResponse {
 						Description: "few clouds",
 						Icon:        "02d",
 					}},
-				// The sample had pop = 0, so I changed it to 1 because 0 could also mean we didn't find the field.
-				Pop: 1,
+				Pop: parseDecimal("1"),
 			},
 		},
 		Daily: []Daily{

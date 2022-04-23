@@ -99,7 +99,7 @@ type CurrentWeather struct {
 	Uvi        decimal.Decimal            `json:"uvi"`
 	Clouds     int64                      `json:"clouds"`
 	Visibility int64                      `json:"visibility"`
-	WindSpeed  int64                      `json:"wind_speed"`
+	WindSpeed  decimal.Decimal            `json:"wind_speed"`
 	WindDeg    int64                      `json:"wind_deg"`
 	Weather    []Weather                  `json:"weather"`
 	Rain       map[string]decimal.Decimal `json:"rain"`
@@ -124,7 +124,7 @@ type Hourly struct {
 	WindDeg    int64           `json:"wind_deg"`
 	WindGust   decimal.Decimal `json:"wind_gust"`
 	Weather    []Weather       `json:"weather"`
-	Pop        int64           `json:"pop"`
+	Pop        decimal.Decimal `json:"pop"`
 }
 
 type DayTemp struct {
