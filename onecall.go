@@ -1,4 +1,4 @@
-package openweathermaponecall
+package owmonecall
 
 import (
 	"strings"
