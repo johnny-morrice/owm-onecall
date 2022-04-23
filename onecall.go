@@ -86,9 +86,10 @@ type Hourly struct {
 	Pressure   int64           `json:"pressure"`
 	Humidity   int64           `json:"humidity"`
 	DewPoint   decimal.Decimal `json:"dew_point"`
+	Uvi        decimal.Decimal `json:"uvi"`
 	Clouds     int64           `json:"clouds"`
 	Visibility int64           `json:"visibility"`
-	WindSpeed  int64           `json:"wind_speed"`
+	WindSpeed  decimal.Decimal `json:"wind_speed"`
 	WindDeg    int64           `json:"wind_deg"`
 	WindGust   decimal.Decimal `json:"wind_gust"`
 	Weather    []Weather       `json:"weather"`
@@ -117,7 +118,7 @@ type Daily struct {
 	Sunset    int64           `json:"sunset"`
 	Moonrise  int64           `json:"moonrise"`
 	Moonset   int64           `json:"moonset"`
-	MoonPhase int64           `json:"moon_phase"`
+	MoonPhase decimal.Decimal `json:"moon_phase"`
 	Temp      DayTemp         `json:"temp"`
 	FeelsLike DayFeelsLike    `json:"feels_like"`
 	Pressure  int64           `json:"pressure"`
@@ -142,13 +143,13 @@ type Alert struct {
 }
 
 type OneCallResponse struct {
-	Lat            float64 `json:"lat"`
-	Lon            float64 `json:"lon"`
-	Timezone       string  `json:"timezone"`
-	TimezoneOffset int     `json:"timezone_offset"`
-	Current        CurrentWeather
-	Minutely       []Minutely
-	Hourly         []Hourly
-	Daily          []Daily
-	Alert          []Alert
+	Lat            decimal.Decimal `json:"lat"`
+	Lon            decimal.Decimal `json:"lon"`
+	Timezone       string          `json:"timezone"`
+	TimezoneOffset int             `json:"timezone_offset"`
+	Current        CurrentWeather  `json:"current"`
+	Minutely       []Minutely      `json:"minutely"`
+	Hourly         []Hourly        `json:"hourly"`
+	Daily          []Daily         `json:"daily"`
+	Alerts         []Alert         `json:"alerts"`
 }
