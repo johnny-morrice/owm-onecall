@@ -49,7 +49,7 @@ func TestWithOptionalParameters(t *testing.T) {
 	// Exact URL match
 	httpmock.RegisterResponder(
 		"GET",
-		"https://api.openweathermap.org/data/2.5/onecall?lat=3.14&lon=5.67&appid=c8b58ab0-1360-4a3a-9f70-3742e48ad2fe&excludes=foo,bar&units=metric&lang=en",
+		"https://api.openweathermap.org/data/2.5/onecall?lat=3.14&lon=5.67&appid=c8b58ab0-1360-4a3a-9f70-3742e48ad2fe&excludes=foo%2Cbar&units=metric&lang=en",
 		httpmock.NewStringResponder(200, readTextFile(t, "testdata/sample.json")),
 	)
 

@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"net/url"
 	"strings"
 
 	"github.com/pkg/errors"
@@ -16,12 +17,12 @@ import (
 // * https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&exclude={part}&appid={API key}
 
 func OneCall(lat, long decimal.Decimal, appId string, optionals ...OptionalParameter) (*OneCallResponse, error) {
-	latText := lat.String()
-	longText := long.String()
+	latText := url.PathEscape(lat.String())
+	longText := url.PathEscape(long.String())
 	optQuery := ""
 	for _, opt := range optionals {
 		optQuery += "&"
-		optQuery += fmt.Sprintf("%s=%s", opt.Name, opt.Value)
+		optQuery += fmt.Sprintf("%s=%s", url.PathEscape(opt.Name), url.PathEscape(opt.Value))
 	}
 	url := fmt.Sprintf("https://api.openweathermap.org/data/2.5/onecall?lat=%s&lon=%s&appid=%s", latText, longText, appId)
 	url += optQuery
