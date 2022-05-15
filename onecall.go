@@ -55,7 +55,7 @@ func Lang(lang string) OptionalParameter {
 func Exclude(excludes []string) OptionalParameter {
 	joined := strings.Join(excludes, ",")
 	return OptionalParameter{
-		Name:  "excludes",
+		Name:  "exclude",
 		Value: joined,
 	}
 }
