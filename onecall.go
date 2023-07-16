@@ -17,6 +17,22 @@ import (
 // * https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&exclude={part}&appid={API key}
 
 func OneCall(lat, long decimal.Decimal, appId string, optionals ...OptionalParameter) (*OneCallResponse, error) {
+	api := OneCallAPI{
+		AppID: appId,
+	}
+	return api.OneCall(lat, long, optionals...)
+}
+
+type OneCallAPI struct {
+	AppID   string
+	BaseURL string
+}
+
+func (api OneCallAPI) OneCall(lat, long decimal.Decimal, optionals ...OptionalParameter) (*OneCallResponse, error) {
+	baseURL := api.BaseURL
+	if baseURL == "" {
+		baseURL = "https://api.openweathermap.org"
+	}
 	latText := url.PathEscape(lat.String())
 	longText := url.PathEscape(long.String())
 	optQuery := ""
@@ -24,7 +40,7 @@ func OneCall(lat, long decimal.Decimal, appId string, optionals ...OptionalParam
 		optQuery += "&"
 		optQuery += fmt.Sprintf("%s=%s", url.PathEscape(opt.Name), url.PathEscape(opt.Value))
 	}
-	url := fmt.Sprintf("https://api.openweathermap.org/data/2.5/onecall?lat=%s&lon=%s&appid=%s", latText, longText, appId)
+	url := fmt.Sprintf("%s/data/2.5/onecall?lat=%s&lon=%s&appid=%s", baseURL, latText, longText, api.AppID)
 	url += optQuery
 	client := &http.Client{}
 	resp, err := client.Get(url)
