@@ -7,7 +7,6 @@ import (
 	"net/url"
 	"strings"
 
-	"github.com/pkg/errors"
 	"github.com/shopspring/decimal"
 )
 
@@ -40,18 +39,19 @@ func (api OneCallAPI) OneCall(lat, long decimal.Decimal, optionals ...OptionalPa
 		optQuery += "&"
 		optQuery += fmt.Sprintf("%s=%s", url.PathEscape(opt.Name), url.PathEscape(opt.Value))
 	}
-	url := fmt.Sprintf("%s/data/2.5/onecall?lat=%s&lon=%s&appid=%s", baseURL, latText, longText, api.AppID)
+	anonymousURL := fmt.Sprintf("%s/data/2.5/onecall", baseURL)
+	url := fmt.Sprintf("%s?lat=%s&lon=%s&appid=%s", anonymousURL, latText, longText, api.AppID)
 	url += optQuery
 	client := &http.Client{}
 	resp, err := client.Get(url)
 	if err != nil {
-		return nil, errors.Wrap(err, "API call failed")
+		return nil, fmt.Errorf("API call failed %s: %w", anonymousURL, err)
 	}
 	out := &OneCallResponse{}
 	decoder := json.NewDecoder(resp.Body)
 	err = decoder.Decode(out)
 	if err != nil {
-		return nil, errors.Wrap(err, "JSON decoding failed")
+		return nil, fmt.Errorf("JSON decoding failed %s: %w", anonymousURL, err)
 	}
 	return out, nil
 }
