@@ -45,7 +45,10 @@ func (api OneCallAPI) OneCall(lat, long decimal.Decimal, optionals ...OptionalPa
 	client := &http.Client{}
 	resp, err := client.Get(url)
 	if err != nil {
-		return nil, fmt.Errorf("API call failed %s: %w", anonymousURL, err)
+		return nil, fmt.Errorf("OWM API call failed %s: %w", anonymousURL, err)
+	}
+	if resp.StatusCode != http.StatusOK {
+		return nil, fmt.Errorf("OWM API API call failed with unexpected status: %d", resp.StatusCode)
 	}
 	out := &OneCallResponse{}
 	decoder := json.NewDecoder(resp.Body)
