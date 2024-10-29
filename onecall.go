@@ -39,7 +39,7 @@ func (api OneCallAPI) OneCall(lat, long decimal.Decimal, optionals ...OptionalPa
 		optQuery += "&"
 		optQuery += fmt.Sprintf("%s=%s", url.PathEscape(opt.Name), url.PathEscape(opt.Value))
 	}
-	anonymousURL := fmt.Sprintf("%s/data/2.5/onecall", baseURL)
+	anonymousURL := fmt.Sprintf("%s/data/3.0/onecall", baseURL)
 	url := fmt.Sprintf("%s?lat=%s&lon=%s&appid=%s", anonymousURL, latText, longText, api.AppID)
 	url += optQuery
 	client := &http.Client{}
